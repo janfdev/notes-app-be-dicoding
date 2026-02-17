@@ -5,5 +5,3 @@ export const userPayloadSchema = Joi.object({
   password: Joi.string().min(6).required(),
   fullname: Joi.string().required(),
 });
-
-

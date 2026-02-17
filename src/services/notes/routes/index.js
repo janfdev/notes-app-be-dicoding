@@ -13,11 +13,27 @@ import {
   noteUpdatePayloadSchema,
 } from "../validator/schema.js";
 const router = express.Router();
+import authenticateToken from "../../../middlewares/auth.js";
 
-router.post("/notes", validate(notePayloadSchema), createNote);
-router.get("/notes", validate(noteQuerySchema, "query"), getNotes);
-router.get("/notes/:id", getNoteById);
-router.put("/notes/:id", validate(noteUpdatePayloadSchema), editNoteById);
-router.delete("/notes/:id", deleteNoteById);
+router.post(
+  "/notes",
+  authenticateToken,
+  validate(notePayloadSchema),
+  createNote,
+);
+router.get(
+  "/notes",
+  authenticateToken,
+  validate(noteQuerySchema, "query"),
+  getNotes,
+);
+router.get("/notes/:id", authenticateToken, getNoteById);
+router.put(
+  "/notes/:id",
+  authenticateToken,
+  validate(noteUpdatePayloadSchema),
+  editNoteById,
+);
+router.delete("/notes/:id", authenticateToken, deleteNoteById);
 
 export default router;

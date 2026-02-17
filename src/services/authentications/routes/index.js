@@ -3,7 +3,7 @@ import {
   login,
   refreshToken,
   logout,
-} from "../controller/authentication-controller.js";
+} from "../controllers/authentication-controller.js";
 
 import validate from "../../../middlewares/validate.js";
 

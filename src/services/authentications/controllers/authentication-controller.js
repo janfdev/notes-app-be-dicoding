@@ -1,9 +1,9 @@
-import authenticationRepositories from "../repositories/authentication-repositories";
-import userRepositories from "../../users/repositories/user-repositories";
+import authenticationRepositories from "../repositories/authentication-repositories.js";
+import userRepositories from "../../users/repositories/user-repositories.js";
 import TokenManager from "../../../security/token-manager.js";
 import response from "../../../utils/response.js";
-import InvariantError from "../../../exceptions/invariant-error";
-import AuthenticationError from "../../../exceptions/invariant-error.js";
+import InvariantError from "../../../exceptions/invariant-error.js";
+import AuthenticationError from "../../../exceptions/authentication-error.js";
 
 export const login = async (req, res, next) => {
   const { username, password } = req.validated;
