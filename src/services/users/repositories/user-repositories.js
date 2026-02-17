@@ -19,7 +19,7 @@ class UserRepository {
       values: [id, username, hashedPassword, fullname, createdAt, updatedAt],
     };
 
-    const result = await this._pool.query(query);
+    const result = await this.pool.query(query);
     return result.rows[0];
   }
 
@@ -29,7 +29,7 @@ class UserRepository {
       values: [username],
     };
 
-    const result = await this._pool.query(query);
+    const result = await this.pool.query(query);
 
     return result.rows.length > 0;
   }
@@ -40,9 +40,41 @@ class UserRepository {
       values: [id],
     };
 
-    const result = await this._pool.query(query);
+    const result = await this.pool.query(query);
 
     return result.rows[0];
+  }
+
+  async verifyUserCredential(username, password) {
+    const query = {
+      text: "SELECT * FROM users WHERE username = $1",
+      values: [username],
+    };
+
+    const result = await this.pool.query(query);
+
+    if (!result.rows.length) {
+      return null;
+    }
+
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return null;
+    }
+
+    return user;
+  }
+
+  async getUsersByUsername(username) {
+    const query = {
+      text: "SELECT id, username, fullname FROM users WHERE username LIKE $1",
+      values: [`%${username}%`],
+    };
+
+    const result = await this.pool.query(query);
+    return result.rows;
   }
 }
 

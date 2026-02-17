@@ -5,10 +5,7 @@ async function authenticateToken(req, res, next) {
   const token = req.headers.authorization;
   if (token && token.indexOf("Bearer ") !== -1) {
     try {
-      const user = await TokenManager.verify(
-        token.split("Bearer ")[1],
-        process.env.ACCESS_TOKEN_KEY,
-      );
+      const user = TokenManager.verifyAccessToken(token.split("Bearer ")[1]);
       req.user = user;
       return next();
     } catch (error) {
